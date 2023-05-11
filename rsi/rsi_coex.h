@@ -24,14 +24,14 @@
 enum rsi_proto { RSI_PROTO_WLAN = 0, RSI_PROTO_BT };
 
 struct rsi_coex_ctrl_block {
-  struct rsi_common *priv;
-  struct sk_buff_head coex_tx_qs[NUM_COEX_TX_QUEUES];
-  struct semaphore tx_bus_lock;
-  struct rsi_thread coex_tx_thread;
+	struct rsi_common *priv;
+	struct sk_buff_head coex_tx_qs[NUM_COEX_TX_QUEUES];
+	struct semaphore tx_bus_lock;
+	struct rsi_thread coex_tx_thread;
 };
 
 int rsi_coex_init(struct rsi_common *common);
 int rsi_coex_send_pkt(void *priv, struct sk_buff *skb, u8 proto_type);
-int rsi_coex_recv_pkt(struct rsi_common *common, u8 *msg);
+int rsi_coex_recv_pkt(struct rsi_common *common, u8 * msg);
 void rsi_coex_deinit(struct rsi_common *common);
 #endif

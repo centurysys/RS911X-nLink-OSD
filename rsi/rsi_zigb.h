@@ -78,46 +78,46 @@ static u8 device_mac_addr[6] = { 0x00, 0x23, 0xa7, 0x27, 0x03, 0x99 };
 #endif
 
 enum {
-  RSI_USER_A_UNSPEC,
-  RSI_USER_A_MSG,
-  __RSI_USER_A_MAX,
+	RSI_USER_A_UNSPEC,
+	RSI_USER_A_MSG,
+	__RSI_USER_A_MAX,
 };
 
 enum {
-  RSI_USER_C_UNSPEC,
-  RSI_USER_C_CMD,
-  __RSI_USER_C_MAX,
+	RSI_USER_C_UNSPEC,
+	RSI_USER_C_CMD,
+	__RSI_USER_C_MAX,
 };
 
 struct genl_cb {
-  unsigned char gc_cmd, *gc_name;
-  int gc_seq, gc_pid;
-  int gc_done;
-  int gc_n_ops;
-  void *gc_drvpriv;
-  struct nla_policy *gc_policy;
-  struct genl_family *gc_family;
-  struct genl_ops *gc_ops;
-  struct genl_info *gc_info;
-  struct sk_buff *gc_skb;
+	unsigned char gc_cmd, *gc_name;
+	int gc_seq, gc_pid;
+	int gc_done;
+	int gc_n_ops;
+	void *gc_drvpriv;
+	struct nla_policy *gc_policy;
+	struct genl_family *gc_family;
+	struct genl_ops *gc_ops;
+	struct genl_info *gc_info;
+	struct sk_buff *gc_skb;
 };
 
 struct rsi_zigb_adapter {
-  struct rsi_common *priv;
-  struct genl_cb *gcb;
+	struct rsi_common *priv;
+	struct genl_cb *gcb;
 };
 
 enum zb_fsm_state {
-  RSI_ZB_FSM_DEVICE_NOT_READY = 0,
-  RSI_ZB_FSM_DEVICE_READY,
+	RSI_ZB_FSM_DEVICE_NOT_READY = 0,
+	RSI_ZB_FSM_DEVICE_READY,
 };
 
 struct rsi_zb_adapter {
-  struct net_device *dev; /* Stores the netdevice pointer */
-  struct rsi_common *priv;
-  u8 mac_addr[6];
-  u32 fsm_state;
-  struct genl_cb *gcb;
+	struct net_device *dev;	/* Stores the netdevice pointer */
+	struct rsi_common *priv;
+	u8 mac_addr[6];
+	u32 fsm_state;
+	struct genl_cb *gcb;
 };
 
 int rsi_zigb_attach(void *priv, struct rsi_proto_ops *ops);
@@ -127,7 +127,7 @@ int zigb_xmit(struct sk_buff *skb, struct net_device *dev);
 int device_close(struct net_device *dev);
 int device_open(struct net_device *dev);
 int zigb_genl_recv(struct sk_buff *skb, struct genl_info *info);
-int rsi_zigb_recv_pkt(void *priv, u8 *pkt);
+int rsi_zigb_recv_pkt(void *priv, u8 * pkt);
 int rsi_zigb_send_pkt(struct rsi_common *common, struct sk_buff *skb);
 int zigb_genl_send(struct genl_cb *gcb, struct sk_buff *skb);
 #endif

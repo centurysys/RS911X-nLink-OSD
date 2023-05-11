@@ -123,8 +123,8 @@
 #define MAGIC_WORD_OFFSET_1     40
 #define MAGIC_WORD_OFFSET_2     424
 #define FW_IMAGE_MIN_ADDRESS    (68 * 1024)
-#define FLASH_MAX_ADDRESS       (4 * 1024 * 1024) //4MB
-#define MAX_FLASH_FILE_SIZE     (400 * 1024)      //400K
+#define FLASH_MAX_ADDRESS       (4 * 1024 * 1024)	//4MB
+#define MAX_FLASH_FILE_SIZE     (400 * 1024)	//400K
 #define FLASHING_START_ADDRESS  16
 #define CALIB_VALUES_START_ADDR 16
 #define SOC_FLASH_ADDR          0x04000000
@@ -145,7 +145,7 @@
 #define BIN_FILE                             0
 #define UNIX_FILE_TYPE                       8
 #define DOS_FILE_TYPE                        9
-#define LMAC_INSTRUCTIONS_SIZE               (16 * 1024) /* 16Kbytes */
+#define LMAC_INSTRUCTIONS_SIZE               (16 * 1024)	/* 16Kbytes */
 
 #define ULP_RESET_REG           0x161
 #define WATCH_DOG_TIMER_1       0x16c
@@ -195,16 +195,16 @@
 #define ULP_POWER_SAVE 2
 
 struct bl_header {
-  __le32 flags;
-  __le32 image_no;
-  __le32 check_sum;
-  __le32 flash_start_address;
-  __le32 flash_len;
+	__le32 flags;
+	__le32 image_no;
+	__le32 check_sum;
+	__le32 flash_start_address;
+	__le32 flash_len;
 } __packed;
 
 struct ta_metadata {
-  char *name;
-  unsigned int address;
+	char *name;
+	unsigned int address;
 };
 
 #ifdef CONFIG_RSI_MULTI_MODE
@@ -222,15 +222,15 @@ extern atomic_t drv_instances[5];
 #define RSI_BL_CTRL_LAST_ENTRY        BIT(31)
 
 struct bootload_entry {
-  __le32 control;
-  __le32 dst_addr; /* Destination address */
+	__le32 control;
+	__le32 dst_addr;	/* Destination address */
 } __packed;
 
 struct bootload_ds {
-  __le16 fixed_pattern;
-  __le16 offset;
-  __le32 reserved;
-  struct bootload_entry bl_entry[7];
+	__le16 fixed_pattern;
+	__le16 offset;
+	__le32 reserved;
+	struct bootload_entry bl_entry[7];
 } __packed;
 
 int rsi_prepare_mgmt_desc(struct rsi_common *common, struct sk_buff *skb);
@@ -242,7 +242,8 @@ int rsi_send_zb_pkt(struct rsi_common *common, struct sk_buff *skb);
 #ifndef CONFIG_STA_PLUS_AP
 int rsi_prepare_beacon(struct rsi_common *common, struct sk_buff *skb);
 #else
-int rsi_prepare_beacon(struct rsi_common *common, struct sk_buff *skb, struct ieee80211_vif *vif);
+int rsi_prepare_beacon(struct rsi_common *common, struct sk_buff *skb,
+		       struct ieee80211_vif *vif);
 #endif
 int rsi_deregister_bt(struct rsi_common *common);
 int rsi_validate_oper_mode(u16 oper_mode);

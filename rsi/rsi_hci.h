@@ -46,37 +46,37 @@
 #endif
 
 enum {
-  RSI_USER_A_UNSPEC,
-  RSI_USER_A_MSG,
-  __RSI_USER_A_MAX,
+	RSI_USER_A_UNSPEC,
+	RSI_USER_A_MSG,
+	__RSI_USER_A_MAX,
 };
 
 enum {
-  RSI_USER_C_UNSPEC,
-  RSI_USER_C_CMD,
-  __RSI_USER_C_MAX,
+	RSI_USER_C_UNSPEC,
+	RSI_USER_C_CMD,
+	__RSI_USER_C_MAX,
 };
 
 enum { BT_DEVICE_NOT_READY = 0, BT_DEVICE_READY };
 
 struct rsi_hci_adapter {
-  struct rsi_common *priv;
-  struct hci_dev *hdev;
-  struct sk_buff_head hci_tx_queue;
+	struct rsi_common *priv;
+	struct hci_dev *hdev;
+	struct sk_buff_head hci_tx_queue;
 };
 #ifdef CONFIG_RSI_BT_ANDROID
 struct rsi_hci_data {
-  struct hci_dev *hdev;
+	struct hci_dev *hdev;
 
-  wait_queue_head_t read_wait;
-  struct sk_buff_head readq;
+	wait_queue_head_t read_wait;
+	struct sk_buff_head readq;
 
-  struct delayed_work open_timeout;
-  struct rsi_common *priv;
+	struct delayed_work open_timeout;
+	struct rsi_common *priv;
 
-  dev_t bt_devid;              /* bt char device number */
-  struct cdev bt_char_dev;     /* bt character device structure */
-  struct class *bt_char_class; /* device class for usb char driver */
+	dev_t bt_devid;		/* bt char device number */
+	struct cdev bt_char_dev;	/* bt character device structure */
+	struct class *bt_char_class;	/* device class for usb char driver */
 };
 #endif
 
@@ -86,46 +86,46 @@ struct rsi_hci_data {
 
 struct rsi_bt_cmd_frame {
 #ifdef __LITTLE_ENDIAN
-  u16 len : 12;
-  u16 q_no : 4;
+	u16 len:12;
+	u16 q_no:4;
 #else
-  u16 reserved1 : 4;
-  u16 q_no : 12;
+	u16 reserved1:4;
+	u16 q_no:12;
 #endif
-  __le16 reserved2[6];
-  u8 pkt_type;
-  u8 reserved3;
+	__le16 reserved2[6];
+	u8 pkt_type;
+	u8 reserved3;
 };
 
 struct rsi_bt_rfmode_frame {
-  struct rsi_bt_cmd_frame desc;
+	struct rsi_bt_cmd_frame desc;
 #ifdef __LITTLE_ENDIAN
-  u8 bt_rf_tx_power_mode : 4;
-  u8 bt_rf_rx_power_mode : 4;
+	u8 bt_rf_tx_power_mode:4;
+	u8 bt_rf_rx_power_mode:4;
 #else
-  u8 bt_rf_rx_power_mode : 4;
-  u8 bt_rf_tx_power_mode : 4;
+	u8 bt_rf_rx_power_mode:4;
+	u8 bt_rf_tx_power_mode:4;
 #endif
-  u8 reserved;
+	u8 reserved;
 };
 
 typedef struct bt_stats_s {
-  unsigned short crc_pass;
-  unsigned short crc_fail;
-  unsigned short tx_aborts;
-  unsigned short cca_stk;
-  unsigned short cca_idle;
-  unsigned short fls_rx_start;
-  unsigned short rx_phy_abort;
-  unsigned short tx_dones;
-  unsigned short fifo_occupied;
-  signed short int rssi;
-  unsigned short id_pkts_rcvd;
+	unsigned short crc_pass;
+	unsigned short crc_fail;
+	unsigned short tx_aborts;
+	unsigned short cca_stk;
+	unsigned short cca_idle;
+	unsigned short fls_rx_start;
+	unsigned short rx_phy_abort;
+	unsigned short tx_dones;
+	unsigned short fifo_occupied;
+	signed short int rssi;
+	unsigned short id_pkts_rcvd;
 } bt_stats_t;
 
 int rsi_hci_attach(struct rsi_common *common);
 void rsi_hci_detach(struct rsi_common *common);
-int rsi_hci_recv_pkt(struct rsi_common *common, u8 *pkt);
+int rsi_hci_recv_pkt(struct rsi_common *common, u8 * pkt);
 
 #ifdef CONFIG_RSI_BT_ANDROID
 int rsi_bdroid_init(struct rsi_common *common);

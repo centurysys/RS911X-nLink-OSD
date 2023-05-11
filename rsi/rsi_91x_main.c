@@ -39,7 +39,7 @@ MODULE_PARM_DESC(sleep_ind_gpio_sel, "\nSleep indication from device\n\
  * these are platform independent, need to configure by user.
  * default value is 0xff.
  */
-u8 ulp_gpio_read  = 0xff;
+u8 ulp_gpio_read = 0xff;
 u8 ulp_gpio_write = 0xff;
 module_param(ulp_gpio_read, byte, S_IRUGO);
 module_param(ulp_gpio_write, byte, S_IRUGO);
@@ -65,7 +65,8 @@ u8 ulp_handshake_mode = PACKET_HAND_SHAKE;
 u8 ps_sleep_type;
 EXPORT_SYMBOL_GPL(ps_sleep_type);
 module_param(ps_sleep_type, byte, 0660);
-MODULE_PARM_DESC(ps_sleep_type, "\nPower save type. '1' for  LP and '2' for ULP\n");
+MODULE_PARM_DESC(ps_sleep_type,
+		 "\nPower save type. '1' for  LP and '2' for ULP\n");
 
 u16 peer_dist;
 u16 bt_feature_bitmap;
@@ -108,15 +109,15 @@ u8 sleep_clk_source_sel;
 
 bool antenna_diversity = 0;
 u16 feature_bitmap_9116;
-u8 bt_rf_type           = 0x01;
-u8 ble_tx_pwr_inx       = 0x1E;
+u8 bt_rf_type = 0x01;
+u8 ble_tx_pwr_inx = 0x1E;
 u8 ble_pwr_save_options = 0x02;
 u8 bt_rf_tx_power_mode;
 u8 bt_rf_rx_power_mode;
 #if defined(CONFIG_RS9116_PURISM)
 u8 antenna_sel = ANTENNA_SEL_UFL;
 #else
-u8 antenna_sel       = ANTENNA_SEL_INT;
+u8 antenna_sel = ANTENNA_SEL_INT;
 #endif
 /*
  * COUNTRY Selection
@@ -165,7 +166,7 @@ MODULE_PARM_DESC(max_sp_len, "\n0 -All buffered packets will be delivered\n\
 3 -Six buffered packets will be delivered\n");
 
 u8 driver_mode_value = 1;
-u8 ipps_valid_value  = 0;
+u8 ipps_valid_value = 0;
 
 /*
  * Enable support of 40MHZ in 2.4GHZ
@@ -187,7 +188,8 @@ MODULE_PARM_DESC(enabled_uapsd, "\n0 - Disable UAPSD, 1 - Enable UAPSD\n");
 MODULE_PARM_DESC(lp_handshake_mode, "\n0 - No handshake, 1 - GPIO handshake\n");
 
 module_param(ulp_handshake_mode, byte, S_IRUGO);
-MODULE_PARM_DESC(ulp_handshake_mode, "\n0 - No handshake, 1 - GPIO based, 2 - Pkt based\n");
+MODULE_PARM_DESC(ulp_handshake_mode,
+		 "\n0 - No handshake, 1 - GPIO based, 2 - Pkt based\n");
 
 module_param(peer_dist, ushort, S_IRUGO);
 MODULE_PARM_DESC(peer_dist, "\npeer distance to config ack timeout value\n");
@@ -271,7 +273,6 @@ MODULE_PARM_DESC(pta_config, "\nPTA configuration \n\
 '2'  - PTA_CONFIG_2\n\
 '3'  - PTA_CONFIG_3\n");
 
-
 u16 rsi_zone_enabled = ERR_ZONE;
 module_param(rsi_zone_enabled, ushort, S_IRUGO);
 MODULE_PARM_DESC(rsi_zone_enabled, "\nBIT(0) - ERROR ZONE\n\
@@ -311,10 +312,10 @@ MODULE_PARM_DESC(dev_oper_mode, "\n1  -	Wi-Fi Alone\n4  -	BT Alone\n\
 
 #if defined(CONFIG_RSI_COEX_MODE) && defined(CONFIG_RSI_ZIGB)
 static struct rsi_proto_ops g_proto_ops = {
-  .coex_send_pkt  = rsi_coex_send_pkt,
-  .get_host_intf  = rsi_get_host_intf,
-  .set_zb_context = rsi_set_zb_context,
-  .get_zb_context = rsi_get_zb_context,
+	.coex_send_pkt = rsi_coex_send_pkt,
+	.get_host_intf = rsi_get_host_intf,
+	.set_zb_context = rsi_set_zb_context,
+	.get_zb_context = rsi_get_zb_context,
 };
 #endif
 bool default_deep_sleep_enable;
@@ -335,18 +336,19 @@ MODULE_PARM_DESC(enable_encap_offload, "\nenable_encap_offload\n\
  */
 void rsi_dbg(u32 zone, const char *fmt, ...)
 {
-  struct va_format vaf;
-  va_list args;
+	struct va_format vaf;
+	va_list args;
 
-  va_start(args, fmt);
+	va_start(args, fmt);
 
-  vaf.fmt = fmt;
-  vaf.va  = &args;
+	vaf.fmt = fmt;
+	vaf.va = &args;
 
-  if (zone & rsi_zone_enabled)
-    pr_info("%pV", &vaf);
-  va_end(args);
+	if (zone & rsi_zone_enabled)
+		pr_info("%pV", &vaf);
+	va_end(args);
 }
+
 EXPORT_SYMBOL_GPL(rsi_dbg);
 
 /**
@@ -358,86 +360,87 @@ EXPORT_SYMBOL_GPL(rsi_dbg);
  *
  * Return: none
  */
-void rsi_hex_dump(u32 zone, char *msg_str, const u8 *msg, u32 len)
+void rsi_hex_dump(u32 zone, char *msg_str, const u8 * msg, u32 len)
 {
-  int ii;
+	int ii;
 
-  if (!(zone & rsi_zone_enabled))
-    return;
-  printk("%s: (length = %d)\n", msg_str, len);
-  for (ii = 0; ii < len; ii++) {
-    if (ii && !(ii % 16))
-      printk(KERN_CONT "\n");
-    printk(KERN_CONT "%02x ", msg[ii]);
-  }
-  printk(KERN_CONT "\n");
+	if (!(zone & rsi_zone_enabled))
+		return;
+	printk("%s: (length = %d)\n", msg_str, len);
+	for (ii = 0; ii < len; ii++) {
+		if (ii && !(ii % 16))
+			printk(KERN_CONT "\n");
+		printk(KERN_CONT "%02x ", msg[ii]);
+	}
+	printk(KERN_CONT "\n");
 }
+
 EXPORT_SYMBOL_GPL(rsi_hex_dump);
 
 static char *opmode_str(int oper_mode)
 {
-  switch (oper_mode) {
-    case DEV_OPMODE_WIFI_ALONE:
-      return "Wi-Fi alone";
-    case DEV_OPMODE_BT_ALONE:
-      return "BT EDR alone";
-    case DEV_OPMODE_BT_LE_ALONE:
-      return "BT LE alone";
-    case DEV_OPMODE_BT_DUAL:
-      return "BT Dual";
-    case DEV_OPMODE_STA_BT:
-      return "Wi-Fi STA + BT EDR";
-    case DEV_OPMODE_STA_BT_LE:
-      return "Wi-Fi STA + BT LE";
-    case DEV_OPMODE_STA_BT_DUAL:
-      return "Wi-Fi STA + BT DUAL";
-    case DEV_OPMODE_AP_BT:
-      return "Wi-Fi AP + BT EDR";
-    case DEV_OPMODE_AP_BT_LE:
-      return "Wi-Fi AP + BT LE";
-    case DEV_OPMODE_AP_BT_DUAL:
-      return "Wi-Fi AP + BT DUAL";
-    case DEV_OPMODE_ZB_ALONE:
-      return "ZIGB alone";
-    case DEV_OPMODE_STA_ZB:
-      return "Wi-Fi STA + ZIGB STA";
-    case DEV_OPMODE_ZB_COORDINATOR:
-      return "ZIGB Coordinator";
-    case DEV_OPMODE_ZB_ROUTER:
-      return "ZIBG Router";
-  }
-  return "Unknown";
+	switch (oper_mode) {
+	case DEV_OPMODE_WIFI_ALONE:
+		return "Wi-Fi alone";
+	case DEV_OPMODE_BT_ALONE:
+		return "BT EDR alone";
+	case DEV_OPMODE_BT_LE_ALONE:
+		return "BT LE alone";
+	case DEV_OPMODE_BT_DUAL:
+		return "BT Dual";
+	case DEV_OPMODE_STA_BT:
+		return "Wi-Fi STA + BT EDR";
+	case DEV_OPMODE_STA_BT_LE:
+		return "Wi-Fi STA + BT LE";
+	case DEV_OPMODE_STA_BT_DUAL:
+		return "Wi-Fi STA + BT DUAL";
+	case DEV_OPMODE_AP_BT:
+		return "Wi-Fi AP + BT EDR";
+	case DEV_OPMODE_AP_BT_LE:
+		return "Wi-Fi AP + BT LE";
+	case DEV_OPMODE_AP_BT_DUAL:
+		return "Wi-Fi AP + BT DUAL";
+	case DEV_OPMODE_ZB_ALONE:
+		return "ZIGB alone";
+	case DEV_OPMODE_STA_ZB:
+		return "Wi-Fi STA + ZIGB STA";
+	case DEV_OPMODE_ZB_COORDINATOR:
+		return "ZIGB Coordinator";
+	case DEV_OPMODE_ZB_ROUTER:
+		return "ZIBG Router";
+	}
+	return "Unknown";
 }
 
 void rsi_print_version(struct rsi_common *common)
 {
-  struct rsi_hw *adapter = common->priv;
-  memcpy(common->driver_ver, DRV_VER, ARRAY_SIZE(DRV_VER));
-  common->driver_ver[ARRAY_SIZE(DRV_VER)] = '\0';
+	struct rsi_hw *adapter = common->priv;
+	memcpy(common->driver_ver, DRV_VER, ARRAY_SIZE(DRV_VER));
+	common->driver_ver[ARRAY_SIZE(DRV_VER)] = '\0';
 
-  rsi_dbg(ERR_ZONE, "================================================\n");
-  rsi_dbg(ERR_ZONE, "================ RSI Version Info ==============\n");
-  rsi_dbg(ERR_ZONE, "================================================\n");
-  if (DEV_MODEL_9116) {
-    rsi_dbg(ERR_ZONE,
-            "FW Version\t:  %04x.%d.%d.%d.%d.%d\n",
-            common->lmac_ver.chip_id,
-            common->lmac_ver.major,
-            common->lmac_ver.minor,
-            common->lmac_ver.patch_id,
-            common->lmac_ver.customer_id,
-            common->lmac_ver.build_id);
-  } else {
-    rsi_dbg(ERR_ZONE,
-            "FW Version\t: %d.%d.%d\n",
-            common->lmac_ver.major,
-            common->lmac_ver.minor,
-            common->lmac_ver.release_num);
-  }
-  rsi_dbg(ERR_ZONE, "Driver Version\t: %s", common->driver_ver);
-  rsi_dbg(ERR_ZONE, "Operating mode\t: %d [%s]", common->oper_mode, opmode_str(common->oper_mode));
-  rsi_dbg(ERR_ZONE, "Firmware file\t: %s", common->priv->fw_file_name);
-  rsi_dbg(ERR_ZONE, "================================================\n");
+	rsi_dbg(ERR_ZONE, "================================================\n");
+	rsi_dbg(ERR_ZONE, "================ RSI Version Info ==============\n");
+	rsi_dbg(ERR_ZONE, "================================================\n");
+	if (DEV_MODEL_9116) {
+		rsi_dbg(ERR_ZONE,
+			"FW Version\t:  %04x.%d.%d.%d.%d.%d\n",
+			common->lmac_ver.chip_id,
+			common->lmac_ver.major,
+			common->lmac_ver.minor,
+			common->lmac_ver.patch_id,
+			common->lmac_ver.customer_id,
+			common->lmac_ver.build_id);
+	} else {
+		rsi_dbg(ERR_ZONE,
+			"FW Version\t: %d.%d.%d\n",
+			common->lmac_ver.major,
+			common->lmac_ver.minor, common->lmac_ver.release_num);
+	}
+	rsi_dbg(ERR_ZONE, "Driver Version\t: %s", common->driver_ver);
+	rsi_dbg(ERR_ZONE, "Operating mode\t: %d [%s]", common->oper_mode,
+		opmode_str(common->oper_mode));
+	rsi_dbg(ERR_ZONE, "Firmware file\t: %s", common->priv->fw_file_name);
+	rsi_dbg(ERR_ZONE, "================================================\n");
 }
 
 /**
@@ -449,37 +452,39 @@ void rsi_print_version(struct rsi_common *common)
  *
  * Return: Successfully skb.
  */
-static struct sk_buff *rsi_prepare_skb(struct rsi_common *common, u8 *buffer, u32 pkt_len, u8 extended_desc)
+static struct sk_buff *rsi_prepare_skb(struct rsi_common *common, u8 * buffer,
+				       u32 pkt_len, u8 extended_desc)
 {
-  struct ieee80211_tx_info *info;
-  struct skb_info *rx_params;
-  struct sk_buff *skb = NULL;
-  u8 payload_offset;
+	struct ieee80211_tx_info *info;
+	struct skb_info *rx_params;
+	struct sk_buff *skb = NULL;
+	u8 payload_offset;
 
-  if (WARN(!pkt_len, "%s: Dummy pkt received", __func__))
-    return NULL;
+	if (WARN(!pkt_len, "%s: Dummy pkt received", __func__))
+		return NULL;
 
-  if (pkt_len > (RSI_RCV_BUFFER_LEN * 4)) {
-    rsi_dbg(ERR_ZONE, "%s: Pkt size > max rx buf size %d\n", __func__, pkt_len);
-    pkt_len = RSI_RCV_BUFFER_LEN * 4;
-  }
+	if (pkt_len > (RSI_RCV_BUFFER_LEN * 4)) {
+		rsi_dbg(ERR_ZONE, "%s: Pkt size > max rx buf size %d\n",
+			__func__, pkt_len);
+		pkt_len = RSI_RCV_BUFFER_LEN * 4;
+	}
 
-  pkt_len -= extended_desc;
-  skb = dev_alloc_skb(pkt_len + FRAME_DESC_SZ);
-  if (!skb)
-    return NULL;
+	pkt_len -= extended_desc;
+	skb = dev_alloc_skb(pkt_len + FRAME_DESC_SZ);
+	if (!skb)
+		return NULL;
 
-  payload_offset = (extended_desc + FRAME_DESC_SZ);
-  skb_put(skb, pkt_len);
-  memcpy((skb->data), (buffer + payload_offset), skb->len);
+	payload_offset = (extended_desc + FRAME_DESC_SZ);
+	skb_put(skb, pkt_len);
+	memcpy((skb->data), (buffer + payload_offset), skb->len);
 
-  info            = IEEE80211_SKB_CB(skb);
-  rx_params       = (struct skb_info *)info->driver_data;
-  rx_params->rssi = rsi_get_rssi(buffer);
+	info = IEEE80211_SKB_CB(skb);
+	rx_params = (struct skb_info *)info->driver_data;
+	rx_params->rssi = rsi_get_rssi(buffer);
 
-  rx_params->channel = rsi_get_connected_channel(common->priv);
+	rx_params->channel = rsi_get_connected_channel(common->priv);
 
-  return skb;
+	return skb;
 }
 
 /**
@@ -489,111 +494,130 @@ static struct sk_buff *rsi_prepare_skb(struct rsi_common *common, u8 *buffer, u3
  *
  * Return: 0 on success, -1 on failure.
  */
-int rsi_read_pkt(struct rsi_common *common, u8 *rx_pkt, s32 rcv_pkt_len)
+int rsi_read_pkt(struct rsi_common *common, u8 * rx_pkt, s32 rcv_pkt_len)
 {
-  u8 *frame_desc = NULL, extended_desc = 0;
-  u32 index = 0, length = 0, queueno = 0;
-  u16 actual_length      = 0, offset;
-  struct sk_buff *skb    = NULL;
-  struct rsi_hw *adapter = common->priv;
+	u8 *frame_desc = NULL, extended_desc = 0;
+	u32 index = 0, length = 0, queueno = 0;
+	u16 actual_length = 0, offset;
+	struct sk_buff *skb = NULL;
+	struct rsi_hw *adapter = common->priv;
 #if defined(CONFIG_RSI_COEX_MODE) && defined(CONFIG_RSI_ZIGB)
-  struct rsi_mod_ops *zb_ops = g_proto_ops.zb_ops;
-  u8 zb_pkt_type;
+	struct rsi_mod_ops *zb_ops = g_proto_ops.zb_ops;
+	u8 zb_pkt_type;
 #endif
 #ifndef CONFIG_STA_PLUS_AP
-  struct ieee80211_vif *vif = adapter->vifs[0];
+	struct ieee80211_vif *vif = adapter->vifs[0];
 #else
-  struct ieee80211_vif *vif = rsi_get_sta_vif(common->priv);
+	struct ieee80211_vif *vif = rsi_get_sta_vif(common->priv);
 #endif
 
-  do {
-    frame_desc    = &rx_pkt[index];
-    actual_length = *(u16 *)&frame_desc[0];
-    offset        = *(u16 *)&frame_desc[2];
+	do {
+		frame_desc = &rx_pkt[index];
+		actual_length = *(u16 *) & frame_desc[0];
+		offset = *(u16 *) & frame_desc[2];
 
-    queueno = rsi_get_queueno(frame_desc, offset);
-    length  = rsi_get_length(frame_desc, offset);
+		queueno = rsi_get_queueno(frame_desc, offset);
+		length = rsi_get_length(frame_desc, offset);
 
-    if (queueno != RSI_ZIGB_Q) {
-      if ((actual_length < (4 + FRAME_DESC_SZ)) || (offset < 4)) {
-        rsi_dbg(ERR_ZONE,
-                "%s: actual_length (%d) is less than 20 or"
-                " offset(%d) is less than 4\n",
-                __func__,
-                actual_length,
-                offset);
-        break;
-      }
-    }
-    if (queueno == RSI_WIFI_DATA_Q || queueno == RSI_WIFI_MGMT_Q)
-      extended_desc = rsi_get_extended_desc(frame_desc, offset);
+		if (queueno != RSI_ZIGB_Q) {
+			if ((actual_length < (4 + FRAME_DESC_SZ))
+			    || (offset < 4)) {
+				rsi_dbg(ERR_ZONE,
+					"%s: actual_length (%d) is less than 20 or"
+					" offset(%d) is less than 4\n",
+					__func__, actual_length, offset);
+				break;
+			}
+		}
+		if (queueno == RSI_WIFI_DATA_Q || queueno == RSI_WIFI_MGMT_Q)
+			extended_desc =
+			    rsi_get_extended_desc(frame_desc, offset);
 
-    switch (queueno) {
-      case RSI_COEX_Q:
-        rsi_hex_dump(MGMT_RX_ZONE, "RX Command co ex packet", frame_desc + offset, FRAME_DESC_SZ + length);
+		switch (queueno) {
+		case RSI_COEX_Q:
+			rsi_hex_dump(MGMT_RX_ZONE, "RX Command co ex packet",
+				     frame_desc + offset,
+				     FRAME_DESC_SZ + length);
 #ifdef CONFIG_RSI_COEX_MODE
-        rsi_coex_recv_pkt(common, (frame_desc + offset));
+			rsi_coex_recv_pkt(common, (frame_desc + offset));
 #else
-        rsi_mgmt_pkt_recv(common, (frame_desc + offset));
+			rsi_mgmt_pkt_recv(common, (frame_desc + offset));
 #endif
-        break;
-      case RSI_WIFI_DATA_Q:
-        rsi_hex_dump(DATA_RX_ZONE, "RX Data pkt", frame_desc + offset, FRAME_DESC_SZ + length);
-        skb = rsi_prepare_skb(common, (frame_desc + offset), length, extended_desc);
-        if (!skb)
-          goto fail;
+			break;
+		case RSI_WIFI_DATA_Q:
+			rsi_hex_dump(DATA_RX_ZONE, "RX Data pkt",
+				     frame_desc + offset,
+				     FRAME_DESC_SZ + length);
+			skb =
+			    rsi_prepare_skb(common, (frame_desc + offset),
+					    length, extended_desc);
+			if (!skb)
+				goto fail;
 
-        if (vif && (adapter->user_ps_en) && (adapter->ps_info.monitor_interval || common->disable_ps_from_lmac)
-            && (vif->type == NL80211_IFTYPE_STATION)) {
-          check_traffic_pwr_save(adapter);
-        }
-        rsi_indicate_pkt_to_os(common, skb);
-        break;
+			if (vif && (adapter->user_ps_en)
+			    && (adapter->ps_info.monitor_interval
+				|| common->disable_ps_from_lmac)
+			    && (vif->type == NL80211_IFTYPE_STATION)) {
+				check_traffic_pwr_save(adapter);
+			}
+			rsi_indicate_pkt_to_os(common, skb);
+			break;
 
-      case RSI_WIFI_MGMT_Q:
-        rsi_mgmt_pkt_recv(common, (frame_desc + offset));
-        break;
+		case RSI_WIFI_MGMT_Q:
+			rsi_mgmt_pkt_recv(common, (frame_desc + offset));
+			break;
 #if defined(CONFIG_RSI_BT_ALONE) || defined(CONFIG_RSI_COEX_MODE)
-      case RSI_BT_MGMT_Q:
-      case RSI_BT_DATA_Q:
-        rsi_hex_dump(DATA_RX_ZONE, "RX BT Pkt", frame_desc + offset, FRAME_DESC_SZ + length);
-        rsi_hci_recv_pkt(common, frame_desc + offset);
-        break;
+		case RSI_BT_MGMT_Q:
+		case RSI_BT_DATA_Q:
+			rsi_hex_dump(DATA_RX_ZONE, "RX BT Pkt",
+				     frame_desc + offset,
+				     FRAME_DESC_SZ + length);
+			rsi_hci_recv_pkt(common, frame_desc + offset);
+			break;
 #endif
 
 #if defined(CONFIG_RSI_COEX_MODE) && defined(CONFIG_RSI_ZIGB)
-      case RSI_ZIGB_Q:
-        rsi_hex_dump(DATA_RX_ZONE, "RX ZB Pkt", frame_desc + offset, FRAME_DESC_SZ + length);
+		case RSI_ZIGB_Q:
+			rsi_hex_dump(DATA_RX_ZONE, "RX ZB Pkt",
+				     frame_desc + offset,
+				     FRAME_DESC_SZ + length);
 #define ZB_RX_PKT_TYPE_OFST 15
 #define ZB_CARD_READY_IND   0xff
-        zb_pkt_type = frame_desc[offset + ZB_RX_PKT_TYPE_OFST];
-        if ((zb_pkt_type == ZB_CARD_READY_IND) && (common->zb_fsm_state == ZB_DEVICE_NOT_READY)) {
-          rsi_dbg(INFO_ZONE, "ZIGB Card ready recvd\n");
-          common->zb_fsm_state = ZB_DEVICE_READY;
-          if (zb_ops && zb_ops->attach) {
-            if (zb_ops->attach(common, &g_proto_ops))
-              rsi_dbg(ERR_ZONE, "Failed to attach ZIGB module\n");
-          }
-        } else {
-          if ((common->zb_fsm_state == ZB_DEVICE_READY) && zb_ops && zb_ops->recv_pkt)
-            zb_ops->recv_pkt(common, frame_desc + offset);
-        }
-        break;
+			zb_pkt_type = frame_desc[offset + ZB_RX_PKT_TYPE_OFST];
+			if ((zb_pkt_type == ZB_CARD_READY_IND)
+			    && (common->zb_fsm_state == ZB_DEVICE_NOT_READY)) {
+				rsi_dbg(INFO_ZONE, "ZIGB Card ready recvd\n");
+				common->zb_fsm_state = ZB_DEVICE_READY;
+				if (zb_ops && zb_ops->attach) {
+					if (zb_ops->
+					    attach(common, &g_proto_ops))
+						rsi_dbg(ERR_ZONE,
+							"Failed to attach ZIGB module\n");
+				}
+			} else {
+				if ((common->zb_fsm_state == ZB_DEVICE_READY)
+				    && zb_ops && zb_ops->recv_pkt)
+					zb_ops->recv_pkt(common,
+							 frame_desc + offset);
+			}
+			break;
 #endif
 
-      default:
-        rsi_dbg(ERR_ZONE, "%s: pkt from invalid queue: %d\n", __func__, queueno);
-        goto fail;
-    }
+		default:
+			rsi_dbg(ERR_ZONE, "%s: pkt from invalid queue: %d\n",
+				__func__, queueno);
+			goto fail;
+		}
 
-    index += actual_length;
-    rcv_pkt_len -= actual_length;
-  } while (rcv_pkt_len > 0);
+		index += actual_length;
+		rcv_pkt_len -= actual_length;
+	} while (rcv_pkt_len > 0);
 
-  return 0;
+	return 0;
 fail:
-  return -EINVAL;
+	return -EINVAL;
 }
+
 EXPORT_SYMBOL_GPL(rsi_read_pkt);
 
 /**
@@ -605,129 +629,134 @@ EXPORT_SYMBOL_GPL(rsi_read_pkt);
  */
 static void rsi_tx_scheduler_thread(struct rsi_common *common)
 {
-  int status             = 0;
-  struct rsi_hw *adapter = common->priv;
-  u32 timeout            = EVENT_WAIT_FOREVER;
+	int status = 0;
+	struct rsi_hw *adapter = common->priv;
+	u32 timeout = EVENT_WAIT_FOREVER;
 
-  do {
-    if (adapter->determine_event_timeout)
-      timeout = adapter->determine_event_timeout(adapter);
-    status = rsi_wait_event(&common->tx_thread.event, timeout);
-    if (status < 0)
-      break;
-    rsi_reset_event(&common->tx_thread.event);
+	do {
+		if (adapter->determine_event_timeout)
+			timeout = adapter->determine_event_timeout(adapter);
+		status = rsi_wait_event(&common->tx_thread.event, timeout);
+		if (status < 0)
+			break;
+		rsi_reset_event(&common->tx_thread.event);
 
-    if (common->init_done) {
-      status = set_clr_tx_intention(common, WLAN_ID, 1);
-      if (!status)
-        rsi_core_qos_processor(common);
-      else
-        rsi_dbg(ERR_ZONE, "%s,%d:  Failed to get tx_access\n", __func__, __LINE__);
-      set_clr_tx_intention(common, WLAN_ID, 0);
-    }
-  } while (atomic_read(&common->tx_thread.thread_done) == 0);
-  complete_and_exit(&common->tx_thread.completion, 0);
+		if (common->init_done) {
+			status = set_clr_tx_intention(common, WLAN_ID, 1);
+			if (!status)
+				rsi_core_qos_processor(common);
+			else
+				rsi_dbg(ERR_ZONE,
+					"%s,%d:  Failed to get tx_access\n",
+					__func__, __LINE__);
+			set_clr_tx_intention(common, WLAN_ID, 0);
+		}
+	} while (atomic_read(&common->tx_thread.thread_done) == 0);
+	complete_and_exit(&common->tx_thread.completion, 0);
 }
 
 #ifdef CONFIG_SDIO_INTR_POLL
 void rsi_sdio_intr_poll_scheduler_thread(struct rsi_common *common)
 {
-  struct rsi_hw *adapter = common->priv;
-  int status             = 0;
+	struct rsi_hw *adapter = common->priv;
+	int status = 0;
 
-  do {
-    status = adapter->check_intr_status_reg(adapter);
-    if (adapter->isr_pending)
-      adapter->isr_pending = 0;
-    msleep(20);
+	do {
+		status = adapter->check_intr_status_reg(adapter);
+		if (adapter->isr_pending)
+			adapter->isr_pending = 0;
+		msleep(20);
 
-  } while (atomic_read(&common->sdio_intr_poll_thread.thread_done) == 0);
-  complete_and_exit(&common->sdio_intr_poll_thread.completion, 0);
+	} while (atomic_read(&common->sdio_intr_poll_thread.thread_done) == 0);
+	complete_and_exit(&common->sdio_intr_poll_thread.completion, 0);
 }
 
 void init_sdio_intr_status_poll_thread(struct rsi_common *common)
 {
-  rsi_init_event(&common->sdio_intr_poll_thread.event);
-  if (rsi_create_kthread(common,
-                         &common->sdio_intr_poll_thread,
-                         rsi_sdio_intr_poll_scheduler_thread,
-                         "Sdio Intr poll-Thread")) {
-    rsi_dbg(ERR_ZONE, "%s: Unable to init sdio intr poll thrd\n", __func__);
-  }
+	rsi_init_event(&common->sdio_intr_poll_thread.event);
+	if (rsi_create_kthread(common,
+			       &common->sdio_intr_poll_thread,
+			       rsi_sdio_intr_poll_scheduler_thread,
+			       "Sdio Intr poll-Thread")) {
+		rsi_dbg(ERR_ZONE, "%s: Unable to init sdio intr poll thrd\n",
+			__func__);
+	}
 }
+
 EXPORT_SYMBOL_GPL(init_sdio_intr_status_poll_thread);
 #endif
 
 #ifdef CONFIG_RSI_COEX_MODE
 enum host_intf rsi_get_host_intf(void *priv)
 {
-  struct rsi_common *common = (struct rsi_common *)priv;
+	struct rsi_common *common = (struct rsi_common *)priv;
 
-  return common->priv->rsi_host_intf;
+	return common->priv->rsi_host_intf;
 }
 
 void rsi_set_zb_context(void *priv, void *zb_context)
 {
-  struct rsi_common *common = (struct rsi_common *)priv;
+	struct rsi_common *common = (struct rsi_common *)priv;
 
-  common->zb_adapter = zb_context;
+	common->zb_adapter = zb_context;
 }
 
 void *rsi_get_zb_context(void *priv)
 {
-  struct rsi_common *common = (struct rsi_common *)priv;
+	struct rsi_common *common = (struct rsi_common *)priv;
 
-  return common->zb_adapter;
+	return common->zb_adapter;
 }
 #endif
 
 void obm_configure_region(struct rsi_hw *adapter, u16 country_code)
 {
 
-  switch (country_code) {
-    /* Countries in US Region */
-    case CTRY_CANADA:
-    case CTRY_MEXICO:
-    case CTRY_UNITED_STATES:
-      adapter->dfs_region = 0;
-      break;
+	switch (country_code) {
+		/* Countries in US Region */
+	case CTRY_CANADA:
+	case CTRY_MEXICO:
+	case CTRY_UNITED_STATES:
+		adapter->dfs_region = 0;
+		break;
 
-      /* Countries in EU Region */
-    case CTRY_FRANCE:
-    case CTRY_GERMANY:
-    case CTRY_ITALY:
-    case CTRY_BELGIUM:
-      adapter->dfs_region = 1;
-      break;
+		/* Countries in EU Region */
+	case CTRY_FRANCE:
+	case CTRY_GERMANY:
+	case CTRY_ITALY:
+	case CTRY_BELGIUM:
+		adapter->dfs_region = 1;
+		break;
 
-      /* Countries in Japan Region */
-    case CTRY_JAPAN:
-      adapter->dfs_region = 2;
-      break;
-      /* Countries in China Region */
-    case CTRY_CHINA:
-      adapter->dfs_region = 4;
-      break;
-      /* Countries in Taiwan Region */
-    case CTRY_TAIWAN:
-      adapter->dfs_region = 5;
-      break;
-      /* Countries in Rest of the World Region */
-    case CTRY_AUSTRALIA:
-    case CTRY_INDIA:
-    case CTRY_IRAN:
-    case CTRY_MALAYSIA:
-    case CTRY_NEW_ZEALAND:
-    case CTRY_RUSSIA:
-    case CTRY_SINGAPORE:
-    case CTRY_SOUTH_AFRICA:
-      adapter->dfs_region = 3;
-      break;
-    default:
-      rsi_dbg(ERR_ZONE, "%s: Default Country Code %d selected\n", __func__, country_code);
-      adapter->dfs_region = 3;
-      break;
-  }
+		/* Countries in Japan Region */
+	case CTRY_JAPAN:
+		adapter->dfs_region = 2;
+		break;
+		/* Countries in China Region */
+	case CTRY_CHINA:
+		adapter->dfs_region = 4;
+		break;
+		/* Countries in Taiwan Region */
+	case CTRY_TAIWAN:
+		adapter->dfs_region = 5;
+		break;
+		/* Countries in Rest of the World Region */
+	case CTRY_AUSTRALIA:
+	case CTRY_INDIA:
+	case CTRY_IRAN:
+	case CTRY_MALAYSIA:
+	case CTRY_NEW_ZEALAND:
+	case CTRY_RUSSIA:
+	case CTRY_SINGAPORE:
+	case CTRY_SOUTH_AFRICA:
+		adapter->dfs_region = 3;
+		break;
+	default:
+		rsi_dbg(ERR_ZONE, "%s: Default Country Code %d selected\n",
+			__func__, country_code);
+		adapter->dfs_region = 3;
+		break;
+	}
 }
 
 /**
@@ -738,158 +767,166 @@ void obm_configure_region(struct rsi_hw *adapter, u16 country_code)
  */
 struct rsi_hw *rsi_91x_init(void)
 {
-  struct rsi_hw *adapter    = NULL;
-  struct rsi_common *common = NULL;
-  u8 ii                     = 0;
+	struct rsi_hw *adapter = NULL;
+	struct rsi_common *common = NULL;
+	u8 ii = 0;
 
-  adapter = kzalloc(sizeof(*adapter), GFP_KERNEL);
-  if (!adapter)
-    return NULL;
+	adapter = kzalloc(sizeof(*adapter), GFP_KERNEL);
+	if (!adapter)
+		return NULL;
 
-  adapter->priv = kzalloc(sizeof(*common), GFP_KERNEL);
-  if (!adapter->priv) {
-    rsi_dbg(ERR_ZONE, "%s: Failed in allocation of priv\n", __func__);
-    kfree(adapter);
-    return NULL;
-  }
-  common       = adapter->priv;
-  common->priv = adapter;
+	adapter->priv = kzalloc(sizeof(*common), GFP_KERNEL);
+	if (!adapter->priv) {
+		rsi_dbg(ERR_ZONE, "%s: Failed in allocation of priv\n",
+			__func__);
+		kfree(adapter);
+		return NULL;
+	}
+	common = adapter->priv;
+	common->priv = adapter;
 
-  for (ii = 0; ii < NUM_SOFT_QUEUES; ii++)
-    skb_queue_head_init(&common->tx_queue[ii]);
+	for (ii = 0; ii < NUM_SOFT_QUEUES; ii++)
+		skb_queue_head_init(&common->tx_queue[ii]);
 
 #ifdef CONFIG_RSI_11K
-  skb_queue_head_init(&common->rrm_queue);
+	skb_queue_head_init(&common->rrm_queue);
 #endif
-  rsi_init_event(&common->tx_thread.event);
-  mutex_init(&common->mutex);
-  mutex_init(&common->tx_lock);
-  mutex_init(&common->rx_lock);
-  mutex_init(&common->bgscan_lock);
-  sema_init(&common->tx_bus_lock, 1);
-  sema_init(&common->tx_access_lock, 1);
-  init_waitqueue_head(&common->techs[WLAN_ID].tx_access_event);
-  init_waitqueue_head(&common->techs[COMMON_ID].tx_access_event);
+	rsi_init_event(&common->tx_thread.event);
+	mutex_init(&common->mutex);
+	mutex_init(&common->tx_lock);
+	mutex_init(&common->rx_lock);
+	mutex_init(&common->bgscan_lock);
+	sema_init(&common->tx_bus_lock, 1);
+	sema_init(&common->tx_access_lock, 1);
+	init_waitqueue_head(&common->techs[WLAN_ID].tx_access_event);
+	init_waitqueue_head(&common->techs[COMMON_ID].tx_access_event);
 #ifdef CONFIG_RSI_COEX_MODE
-  init_waitqueue_head(&common->techs[BT_ZB_ID].tx_access_event);
+	init_waitqueue_head(&common->techs[BT_ZB_ID].tx_access_event);
 #endif
-  common->scan_workqueue = create_singlethread_workqueue("rsi_scan_worker");
+	common->scan_workqueue =
+	    create_singlethread_workqueue("rsi_scan_worker");
 #if LINUX_VERSION_CODE <= KERNEL_VERSION(4, 20, 17) || defined(OFFLOAD_SCAN_TO_DEVICE)
-  rsi_init_event(&common->probe_cfm_event);
-  rsi_init_event(&common->chan_change_event);
+	rsi_init_event(&common->probe_cfm_event);
+	rsi_init_event(&common->chan_change_event);
 #ifndef CONFIG_RSI_P2P
-  rsi_init_event(&common->mgmt_cfm_event);
+	rsi_init_event(&common->mgmt_cfm_event);
 #endif
-  INIT_WORK(&common->scan_work, rsi_scan_start);
+	INIT_WORK(&common->scan_work, rsi_scan_start);
 #endif
-  rsi_init_event(&common->cancel_hw_scan_event);
+	rsi_init_event(&common->cancel_hw_scan_event);
 #ifdef CONFIG_RSI_MULTI_MODE
-  common->dev_oper_mode[0] = dev_oper_mode_count;
-  memcpy(&common->dev_oper_mode[1], &dev_oper_mode, 5 * sizeof(u16));
+	common->dev_oper_mode[0] = dev_oper_mode_count;
+	memcpy(&common->dev_oper_mode[1], &dev_oper_mode, 5 * sizeof(u16));
 #else
-  common->dev_oper_mode = dev_oper_mode;
+	common->dev_oper_mode = dev_oper_mode;
 #endif
-  common->lp_ps_handshake_mode  = lp_handshake_mode;
-  common->ulp_ps_handshake_mode = ulp_handshake_mode;
+	common->lp_ps_handshake_mode = lp_handshake_mode;
+	common->ulp_ps_handshake_mode = ulp_handshake_mode;
 #if !defined(CONFIG_ARCH_HAVE_CUSTOM_GPIO_H)
-  if (ulp_handshake_mode == GPIO_HAND_SHAKE) {
-    /* CONFIG_ARCH_HAVE_CUSTOM_GPIO_H flag is not set in kernel,
+	if (ulp_handshake_mode == GPIO_HAND_SHAKE) {
+		/* CONFIG_ARCH_HAVE_CUSTOM_GPIO_H flag is not set in kernel,
 		 * Hence GPIO handshake is not possible, proceed with packet
 		 * based handshake.
 		 */
-    rsi_dbg(ERR_ZONE, "no custom gpio configuration in kernel\n");
-    common->lp_ps_handshake_mode  = NO_HAND_SHAKE;
-    common->ulp_ps_handshake_mode = PACKET_HAND_SHAKE;
-  }
+		rsi_dbg(ERR_ZONE, "no custom gpio configuration in kernel\n");
+		common->lp_ps_handshake_mode = NO_HAND_SHAKE;
+		common->ulp_ps_handshake_mode = PACKET_HAND_SHAKE;
+	}
 #endif
-  if (common->ulp_ps_handshake_mode == GPIO_HAND_SHAKE) {
-    if (ulp_gpio_read == 0xff || ulp_gpio_write == 0xff) {
-      rsi_dbg(ERR_ZONE, "%s: provide valid platform GPIO pins\n", __func__);
-      goto err;
-    }
-    rsi_dbg(INIT_ZONE, "%s: read-gpio = %d, write-gpio = %d\n", __func__, ulp_gpio_read, ulp_gpio_write);
-    common->ulp_gpio_read      = ulp_gpio_read;
-    common->ulp_gpio_write     = ulp_gpio_write;
-    common->sleep_ind_gpio_sel = sleep_ind_gpio_sel;
-  }
-  common->peer_dist                 = peer_dist;
-  common->bt_feature_bitmap         = bt_feature_bitmap;
-  common->uart_debug                = uart_debug;
-  common->ext_opt                   = ext_opt;
-  common->ble_roles                 = ble_roles;
-  common->bt_bdr_mode               = bt_bdr_mode;
-  common->three_wire_coex           = three_wire_coex;
-  common->anchor_point_gap          = anchor_point_gap;
-  common->host_intf_on_demand       = host_intf_on_demand;
-  common->crystal_as_sleep_clk      = sleep_clk_source_sel;
-  common->feature_bitmap_9116       = feature_bitmap_9116;
-  common->host_intf_on_demand       = host_intf_on_demand;
-  common->bt_rf_type                = bt_rf_type;
-  common->obm_ant_sel_val           = antenna_sel;
-  common->antenna_diversity         = antenna_diversity;
-  common->ble_tx_pwr_inx            = ble_tx_pwr_inx;
-  common->ble_pwr_save_options      = ble_pwr_save_options;
-  common->bt_rf_tx_power_mode       = bt_rf_tx_power_mode;
-  common->bt_rf_rx_power_mode       = bt_rf_rx_power_mode;
-  common->w9116_features.ps_options = pwr_save_opt;
-  common->wlan_pwrsave_options      = ((lmac_bcon_drop << 5) | (standby_assoc_chain_sel << 4));
-  common->driver_mode               = driver_mode_value;
-  common->enable_40mhz              = enable_40mhz;
-  common->enabled_uapsd             = enabled_uapsd;
-  common->max_sp_len                = max_sp_len;
-  common->pta_config                = pta_config;
-  common->xtal_good_time            = xtal_good_time;
-  common->rx_data_inactive_interval = rx_data_inactive_interval;
-  common->default_deep_sleep_enable = default_deep_sleep_enable;
-  common->enable_encap_offload      = enable_encap_offload;
-  obm_configure_region(adapter, country_code);
+	if (common->ulp_ps_handshake_mode == GPIO_HAND_SHAKE) {
+		if (ulp_gpio_read == 0xff || ulp_gpio_write == 0xff) {
+			rsi_dbg(ERR_ZONE,
+				"%s: provide valid platform GPIO pins\n",
+				__func__);
+			goto err;
+		}
+		rsi_dbg(INIT_ZONE, "%s: read-gpio = %d, write-gpio = %d\n",
+			__func__, ulp_gpio_read, ulp_gpio_write);
+		common->ulp_gpio_read = ulp_gpio_read;
+		common->ulp_gpio_write = ulp_gpio_write;
+		common->sleep_ind_gpio_sel = sleep_ind_gpio_sel;
+	}
+	common->peer_dist = peer_dist;
+	common->bt_feature_bitmap = bt_feature_bitmap;
+	common->uart_debug = uart_debug;
+	common->ext_opt = ext_opt;
+	common->ble_roles = ble_roles;
+	common->bt_bdr_mode = bt_bdr_mode;
+	common->three_wire_coex = three_wire_coex;
+	common->anchor_point_gap = anchor_point_gap;
+	common->host_intf_on_demand = host_intf_on_demand;
+	common->crystal_as_sleep_clk = sleep_clk_source_sel;
+	common->feature_bitmap_9116 = feature_bitmap_9116;
+	common->host_intf_on_demand = host_intf_on_demand;
+	common->bt_rf_type = bt_rf_type;
+	common->obm_ant_sel_val = antenna_sel;
+	common->antenna_diversity = antenna_diversity;
+	common->ble_tx_pwr_inx = ble_tx_pwr_inx;
+	common->ble_pwr_save_options = ble_pwr_save_options;
+	common->bt_rf_tx_power_mode = bt_rf_tx_power_mode;
+	common->bt_rf_rx_power_mode = bt_rf_rx_power_mode;
+	common->w9116_features.ps_options = pwr_save_opt;
+	common->wlan_pwrsave_options =
+	    ((lmac_bcon_drop << 5) | (standby_assoc_chain_sel << 4));
+	common->driver_mode = driver_mode_value;
+	common->enable_40mhz = enable_40mhz;
+	common->enabled_uapsd = enabled_uapsd;
+	common->max_sp_len = max_sp_len;
+	common->pta_config = pta_config;
+	common->xtal_good_time = xtal_good_time;
+	common->rx_data_inactive_interval = rx_data_inactive_interval;
+	common->default_deep_sleep_enable = default_deep_sleep_enable;
+	common->enable_encap_offload = enable_encap_offload;
+	obm_configure_region(adapter, country_code);
 
-  if (rsi_create_kthread(common, &common->tx_thread, rsi_tx_scheduler_thread, "Tx-Thread")) {
-    rsi_dbg(ERR_ZONE, "%s: Unable to init tx thrd\n", __func__);
-    goto err;
-  }
-
+	if (rsi_create_kthread
+	    (common, &common->tx_thread, rsi_tx_scheduler_thread,
+	     "Tx-Thread")) {
+		rsi_dbg(ERR_ZONE, "%s: Unable to init tx thrd\n", __func__);
+		goto err;
+	}
 #ifdef CONFIG_RSI_COEX_MODE
-  if (rsi_coex_init(common)) {
-    rsi_dbg(ERR_ZONE, "Failed to init COEX module\n");
-    goto err;
-  }
+	if (rsi_coex_init(common)) {
+		rsi_dbg(ERR_ZONE, "Failed to init COEX module\n");
+		goto err;
+	}
 #endif
-  /* Power save related */
-  rsi_default_ps_params(adapter);
-  spin_lock_init(&adapter->ps_lock);
-  common->uapsd_bitmap   = 0;
-  common->rsi_scan_count = 0;
+	/* Power save related */
+	rsi_default_ps_params(adapter);
+	spin_lock_init(&adapter->ps_lock);
+	common->uapsd_bitmap = 0;
+	common->rsi_scan_count = 0;
 
-  /* BGScan related */
-  init_bgscan_params(common);
+	/* BGScan related */
+	init_bgscan_params(common);
 
-  /* Wi-Fi direct related */
+	/* Wi-Fi direct related */
 #if LINUX_VERSION_CODE < KERNEL_VERSION(4, 15, 0)
-  common->roc_timer.data     = (unsigned long)common;
-  common->roc_timer.function = (void *)&rsi_roc_timeout;
-  init_timer(&common->roc_timer);
+	common->roc_timer.data = (unsigned long)common;
+	common->roc_timer.function = (void *)&rsi_roc_timeout;
+	init_timer(&common->roc_timer);
 #else
-  timer_setup(&common->roc_timer, rsi_roc_timeout, 0);
+	timer_setup(&common->roc_timer, rsi_roc_timeout, 0);
 #endif
-  init_completion(&common->wlan_init_completion);
+	init_completion(&common->wlan_init_completion);
 #if LINUX_VERSION_CODE <= KERNEL_VERSION(4, 20, 17) || defined(OFFLOAD_SCAN_TO_DEVICE)
-  rsi_init_event(&common->chan_set_event);
+	rsi_init_event(&common->chan_set_event);
 #else
-  if (common->driver_mode == RF_EVAL_MODE_ON)
-    rsi_init_event(&common->chan_set_event);
+	if (common->driver_mode == RF_EVAL_MODE_ON)
+		rsi_init_event(&common->chan_set_event);
 #endif
 
-  common->init_done = true;
-  if (nl_sk_init(adapter))
-    rsi_dbg(ERR_ZONE, "%s: nl socket init failed\n", __func__);
-  return adapter;
+	common->init_done = true;
+	if (nl_sk_init(adapter))
+		rsi_dbg(ERR_ZONE, "%s: nl socket init failed\n", __func__);
+	return adapter;
 
 err:
-  kfree(common);
-  kfree(adapter);
-  return NULL;
+	kfree(common);
+	kfree(adapter);
+	return NULL;
 }
+
 EXPORT_SYMBOL_GPL(rsi_91x_init);
 
 /**
@@ -900,44 +937,48 @@ EXPORT_SYMBOL_GPL(rsi_91x_init);
  */
 void rsi_91x_deinit(struct rsi_hw *adapter)
 {
-  struct rsi_common *common = adapter->priv;
-  u8 ii;
+	struct rsi_common *common = adapter->priv;
+	u8 ii;
 
-  rsi_dbg(INFO_ZONE, "%s: Deinit core module...\n", __func__);
+	rsi_dbg(INFO_ZONE, "%s: Deinit core module...\n", __func__);
 
-  flush_workqueue(common->scan_workqueue);
-  destroy_workqueue(common->scan_workqueue);
-  rsi_kill_thread(&common->tx_thread);
+	flush_workqueue(common->scan_workqueue);
+	destroy_workqueue(common->scan_workqueue);
+	rsi_kill_thread(&common->tx_thread);
 
-  for (ii = 0; ii < NUM_SOFT_QUEUES; ii++)
-    skb_queue_purge(&common->tx_queue[ii]);
+	for (ii = 0; ii < NUM_SOFT_QUEUES; ii++)
+		skb_queue_purge(&common->tx_queue[ii]);
 
 #ifdef CONFIG_RSI_COEX_MODE
-  if (common->coex_mode > 1) {
+	if (common->coex_mode > 1) {
 #ifdef CONFIG_RSI_ZIGB
-    if ((common->zb_fsm_state == ZB_DEVICE_READY) && g_proto_ops.zb_ops->detach) {
-      rsi_dbg(INFO_ZONE, "%s: Detaching the zigbee module\n", __func__);
-      g_proto_ops.zb_ops->detach(common);
-    }
+		if ((common->zb_fsm_state == ZB_DEVICE_READY)
+		    && g_proto_ops.zb_ops->detach) {
+			rsi_dbg(INFO_ZONE, "%s: Detaching the zigbee module\n",
+				__func__);
+			g_proto_ops.zb_ops->detach(common);
+		}
 #endif
-  }
-  rsi_coex_deinit(common);
+	}
+	rsi_coex_deinit(common);
 #endif
 #ifdef CONFIG_RSI_MULTI_MODE
-  rsi_dbg(ERR_ZONE, "%s: reset drv instance: %d\n", __func__, adapter->drv_instance_index);
-  DRV_INSTANCE_SET(adapter->drv_instance_index, 0);
+	rsi_dbg(ERR_ZONE, "%s: reset drv instance: %d\n", __func__,
+		adapter->drv_instance_index);
+	DRV_INSTANCE_SET(adapter->drv_instance_index, 0);
 #endif
-  common->init_done = false;
-  nl_sk_exit(adapter->nl_sk);
+	common->init_done = false;
+	nl_sk_exit(adapter->nl_sk);
 #if defined(CONFIG_ARCH_HAVE_CUSTOM_GPIO_H)
-  if (common->ulp_ps_handshake_mode == GPIO_HAND_SHAKE)
-    gpio_deinit(common);
+	if (common->ulp_ps_handshake_mode == GPIO_HAND_SHAKE)
+		gpio_deinit(common);
 #endif
 
-  kfree(common);
-  kfree(adapter->rsi_dev);
-  kfree(adapter);
+	kfree(common);
+	kfree(adapter->rsi_dev);
+	kfree(adapter);
 }
+
 EXPORT_SYMBOL_GPL(rsi_91x_deinit);
 
 /**
@@ -950,14 +991,14 @@ EXPORT_SYMBOL_GPL(rsi_91x_deinit);
  */
 static int rsi_91x_hal_module_init(void)
 {
-  rsi_dbg(INIT_ZONE, "%s: Module init called\n", __func__);
+	rsi_dbg(INIT_ZONE, "%s: Module init called\n", __func__);
 #if defined(CONFIG_RSI_COEX_MODE) && defined(CONFIG_RSI_ZIGB)
-  g_proto_ops.zb_ops = rsi_get_zb_ops();
-  if (!g_proto_ops.zb_ops)
-    rsi_dbg(ERR_ZONE, "Failed to get ZIGB ops\n");
+	g_proto_ops.zb_ops = rsi_get_zb_ops();
+	if (!g_proto_ops.zb_ops)
+		rsi_dbg(ERR_ZONE, "Failed to get ZIGB ops\n");
 #endif
 
-  return 0;
+	return 0;
 }
 
 /**
@@ -970,7 +1011,7 @@ static int rsi_91x_hal_module_init(void)
  */
 static void rsi_91x_hal_module_exit(void)
 {
-  rsi_dbg(INIT_ZONE, "%s: Module exit called\n", __func__);
+	rsi_dbg(INIT_ZONE, "%s: Module exit called\n", __func__);
 }
 
 module_init(rsi_91x_hal_module_init);
